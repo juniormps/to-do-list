@@ -1,16 +1,20 @@
 //Styles
-import "./App.css";
+import styles from "./App.module.css";
 
 //Components
-import Footer from "./components/Footer";
-import Header from "./components/Header";
+import Footer from "./components/footer/Footer";
+import Header from "./components/header/Header";
 
 function App() {
     return (
         <>
             <div>
                 <Header />
-                <h1>conteúdo</h1>
+
+                <main className={styles.main}>
+                    <h1>conteúdo</h1>
+                </main>
+                
                 <Footer />
             </div>
         </>
