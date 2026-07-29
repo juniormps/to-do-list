@@ -1,6 +1,7 @@
 import styles from "./TaskForm.module.css";
 import { ITask } from "../../interfaces/Task";
-import { useState, ChangeEvent, FormEvent, useEffect } from "react";
+import { useState, useEffect } from "react";
+import type { ChangeEvent, SubmitEvent } from "react";
 interface TaskFormProps {
     btnText: string;
     buttonText: string;
@@ -16,7 +17,7 @@ const TaskForm = ({ buttonText }: TaskFormProps) => {
         setId(Math.floor(Math.random() * 1000));
     }, []);
 
-    const addTaskHandler = (e: FormEvent<HTMLFormElement>) => {
+    const addTaskHandler = (e: SubmitEvent<HTMLFormElement>) => {
         e.preventDefault();
         console.log(title, difficulty);
     };
@@ -35,6 +36,7 @@ const TaskForm = ({ buttonText }: TaskFormProps) => {
             <div className={styles.input_container}>
                 <label htmlFor="title">Título</label>
                 <input
+                    id="title"
                     type="text"
                     name="title"
                     placeholder="Título da tarefa"
@@ -44,6 +46,7 @@ const TaskForm = ({ buttonText }: TaskFormProps) => {
             <div className={styles.input_container}>
                 <label htmlFor="difficulty">Dificuldade</label>
                 <input
+                    id="difficulty"
                     type="text"
                     name="difficulty"
                     placeholder="Dificuldade da tarefa"
