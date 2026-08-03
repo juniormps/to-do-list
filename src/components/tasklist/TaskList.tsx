@@ -1,8 +1,31 @@
-const TaskList = () => {
+import type { ITask } from "../../interfaces/Task";
+import styles from "./TaskList.module.css";
+
+interface Props {
+    taskList: ITask[];
+}
+
+const TaskList = ({ taskList }: Props) => {
     return (
-        <div>
-            lista
-        </div>
+        <>
+            {taskList.length > 0 ? (
+                taskList.map((task) => (
+                    <div className={styles.task} key={task.id}>
+                        <div>
+                            <h4>{task.title}</h4>
+                            <p>Dificuldade: {task.difficulty}</p>
+                        </div>
+                        <div>
+                            <i className="bi bi-pencil"></i>
+                            <i className="bi bi-trash"></i>
+                        </div>
+                    
+                    </div>
+                ))
+            ) : (
+                <p>Nenhuma tarefa cadastrada.</p>
+            )}
+        </>
     );
 };
 

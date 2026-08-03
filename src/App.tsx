@@ -31,7 +31,7 @@ function App() {
                     </div>
                     <div>
                         <h2>Lista de tarefas</h2>
-                        <TaskList />
+                        <TaskList taskList={taskList} />
                     </div>
                 </main>
 
