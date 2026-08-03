@@ -4,6 +4,9 @@ import styles from "./App.module.css";
 
 import { useState } from "react";
 
+//Hooks
+import { useTasks } from "./hooks/useTasks";
+
 //Components
 import Footer from "./components/footer/Footer";
 import Header from "./components/header/Header";
@@ -15,25 +18,18 @@ import TaskList from "./components/tasklist/TaskList";
 import type { ITask } from "./interfaces/Task";
 
 function App() {
-    const [taskList, setTaskList] = useState<ITask[]>([]);
+    const {
+        taskList,
+        addTask,
+        updateTask,
+        taskToDelete,
+        requestDelete,
+        confirmDelete,
+        cancelDelete,
+    } = useTasks();
+
     const [taskToUpdate, setTaskToUpdate] = useState<ITask | null>(null);
     const [showModal, setShowModal] = useState(false);
-    const [taskToDelete, setTaskToDelete] = useState<string | null>(null);
-
-    const deleteTask = (id: string) => {
-        setTaskToDelete(id);
-    };
-
-    const confirmDelete = () => {
-        if (taskToDelete) {
-            setTaskList(taskList.filter((task) => task.id !== taskToDelete));
-        }
-        setTaskToDelete(null);
-    };
-
-    const cancelDelete = () => {
-        setTaskToDelete(null);
-    };
 
     const openModal = () => {
         setShowModal(true);
@@ -48,14 +44,8 @@ function App() {
         openModal();
     };
 
-    const updateTask = (id: string, title: string, difficulty: number) => {
-        const updatedTask: ITask = { id, title, difficulty };
-
-        const updatedItems = taskList.map((task) => {
-            return task.id === updatedTask.id ? updatedTask : task;
-        });
-
-        setTaskList(updatedItems);
+    const handleUpdate = (id: string, title: string, difficulty: number) => {
+        updateTask(id, title, difficulty);
         closeModal();
     };
 
@@ -69,10 +59,8 @@ function App() {
                     children={
                         <TaskForm
                             buttonText="Editar tarefa"
-                            taskList={taskList}
-                            setTaskList={setTaskList}
                             taskToUpdate={taskToUpdate}
-                            handleUpdate={updateTask}
+                            handleUpdate={handleUpdate}
                         />
                     }
                 />
@@ -105,15 +93,14 @@ function App() {
                         <h2>O que você vai fazer?</h2>
                         <TaskForm
                             buttonText="Criar tarefa"
-                            taskList={taskList}
-                            setTaskList={setTaskList}
+                            onAdd={addTask}
                         />
                     </div>
                     <div>
                         <h2>Lista de tarefas</h2>
                         <TaskList
                             taskList={taskList}
-                            handleDelete={deleteTask}
+                            handleDelete={requestDelete}
                             handleEdit={editTask}
                         />
                     </div>

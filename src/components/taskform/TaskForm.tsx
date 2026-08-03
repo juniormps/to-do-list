@@ -4,21 +4,20 @@ import styles from "./TaskForm.module.css";
 import type { ITask } from "../../interfaces/Task";
 interface TaskFormProps {
     buttonText: string;
-    taskList: ITask[];
-    setTaskList?: React.Dispatch<React.SetStateAction<ITask[]>>;
+    onAdd?(task: ITask): void;
     taskToUpdate?: ITask | null;
     handleUpdate?: (id: string, title: string, difficulty: number) => void;
 }
 
-const TaskForm = ({ buttonText, taskList, setTaskList, taskToUpdate, handleUpdate }: TaskFormProps) => {
-    const [id, setId] = useState<number>(0);
+const TaskForm = ({ buttonText, onAdd, taskToUpdate, handleUpdate }: TaskFormProps) => {
+    const [id, setId] = useState<string>("");
     const [title, setTitle] = useState<string>("");
     const [difficulty, setDifficulty] = useState<string>("");
     const [errors, setErrors] = useState<{ title?: string; difficulty?: string }>({});
 
     useEffect(() => {
         if (taskToUpdate) {
-            setId(parseInt(taskToUpdate.id));
+            setId(taskToUpdate.id);
             setTitle(taskToUpdate.title);
             setDifficulty(String(taskToUpdate.difficulty));
             setErrors({});
@@ -49,12 +48,12 @@ const TaskForm = ({ buttonText, taskList, setTaskList, taskToUpdate, handleUpdat
         const difficultyNum = parseInt(difficulty);
 
         if (handleUpdate) {
-            handleUpdate(String(id), title, difficultyNum);
+            handleUpdate(id, title, difficultyNum);
 
         } else {
             const newTask: ITask = { id: crypto.randomUUID(), title, difficulty: difficultyNum };
 
-            setTaskList!([...taskList, newTask]);
+            onAdd!(newTask);
         }
 
         setTitle("");
