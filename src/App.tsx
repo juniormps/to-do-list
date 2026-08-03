@@ -7,11 +7,13 @@ import { useState } from "react";
 //Components
 import Footer from "./components/footer/Footer";
 import Header from "./components/header/Header";
+import Modal from "./components/modal/Modal";
 import TaskForm from "./components/taskform/TaskForm";
 import TaskList from "./components/tasklist/TaskList";
 
 //Interfaces
 import type { ITask } from "./interfaces/Task";
+
 
 function App() {
     const [taskList, setTaskList] = useState<ITask[]>([]);
@@ -23,6 +25,7 @@ function App() {
     return (
         <>
             <div>
+                <Modal />
                 <Header />
 
                 <main className={styles.main}>
@@ -44,6 +47,6 @@ function App() {
             </div>
         </>
     );
-}
+};
 
 export default App;
