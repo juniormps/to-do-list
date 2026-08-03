@@ -34,3 +34,10 @@
     margin-bottom: 0.4em;
     font-weight: bold;
 }
+
+.error {
+    color: #dc3545;
+    font-size: 0.85em;
+    margin-top: -1em;
+    margin-bottom: 1em;
+}
