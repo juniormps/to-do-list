@@ -30,9 +30,7 @@ const TaskForm = ({ buttonText, taskList, setTaskList, taskToUpdate, handleUpdat
             handleUpdate(String(id), title, difficulty);
 
         } else {  //Cria uma nova tarefa
-            setId(Math.floor(Math.random() * 1000));
-        
-            const newTask: ITask = { id: String(id), title, difficulty };
+            const newTask: ITask = { id: crypto.randomUUID(), title, difficulty };
 
             setTaskList!([...taskList, newTask]);
         }
