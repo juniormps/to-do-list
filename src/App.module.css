@@ -7,3 +7,51 @@
 .main h2 {
     margin-bottom: 0.8em;
 }
+
+.confirm_content {
+    padding: 1em;
+}
+
+.confirm_message {
+    font-size: 1.1em;
+    margin-bottom: 1.5em;
+    color: #333;
+}
+
+.confirm_actions {
+    display: flex;
+    justify-content: center;
+    gap: 1em;
+}
+
+.confirm_btn {
+    padding: 8px 20px;
+    border: 1px solid #282c34;
+    border-radius: 0;
+    cursor: pointer;
+    font-size: 0.95em;
+    transition: 0.3s;
+    background-color: #fff;
+    color: #282c34;
+}
+
+.confirm_btn:hover {
+    background-color: #61dafb;
+    border-color: #61dafb;
+}
+
+.confirm_btn_danger {
+    padding: 8px 20px;
+    border: 1px solid #dc3545;
+    border-radius: 0;
+    cursor: pointer;
+    font-size: 0.95em;
+    transition: 0.3s;
+    background-color: #dc3545;
+    color: #fff;
+}
+
+.confirm_btn_danger:hover {
+    background-color: #c82333;
+    border-color: #c82333;
+}

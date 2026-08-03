@@ -82,18 +82,17 @@ function App() {
                     onClose={cancelDelete}
                     title="Confirmar Exclusão"
                     children={
-                        <div>
-                            <p>Tem certeza que deseja excluir esta tarefa?</p>
-                            <div
-                                style={{
-                                    display: "flex",
-                                    justifyContent: "center",
-                                    gap: "1em",
-                                    marginTop: "1.5em",
-                                }}
-                            >
-                                <button onClick={cancelDelete}>Cancelar</button>
-                                <button onClick={confirmDelete}>Excluir</button>
+                        <div className={styles.confirm_content}>
+                            <p className={styles.confirm_message}>
+                                Tem certeza que deseja excluir esta tarefa?
+                            </p>
+                            <div className={styles.confirm_actions}>
+                                <button className={styles.confirm_btn} onClick={cancelDelete}>
+                                    Cancelar
+                                </button>
+                                <button className={styles.confirm_btn_danger} onClick={confirmDelete}>
+                                    Excluir
+                                </button>
                             </div>
                         </div>
                     }
