@@ -1,5 +1,6 @@
 //Styles
 import styles from "./App.module.css";
+import "bootstrap-icons/font/bootstrap-icons.css";
 
 import { useState } from "react";
 
