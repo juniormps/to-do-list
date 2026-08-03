@@ -1,30 +1,44 @@
 import type { ChangeEvent, SubmitEvent } from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import styles from "./TaskForm.module.css";
 import type { ITask } from "../../interfaces/Task";
 interface TaskFormProps {
     buttonText: string;
     taskList: ITask[];
     setTaskList?: React.Dispatch<React.SetStateAction<ITask[]>>;
+    taskToUpdate?: ITask | null;
+    handleUpdate?: (id: string, title: string, difficulty: number) => void;
 }
 
-const TaskForm = ({ buttonText, taskList, setTaskList }: TaskFormProps) => {
+const TaskForm = ({ buttonText, taskList, setTaskList, taskToUpdate, handleUpdate }: TaskFormProps) => {
     const [id, setId] = useState<number>(0);
     const [title, setTitle] = useState<string>("");
     const [difficulty, setDifficulty] = useState<number>(0);
 
+    useEffect(() => {
+        if (taskToUpdate) {
+            setId(parseInt(taskToUpdate.id));
+            setTitle(taskToUpdate.title);
+            setDifficulty(taskToUpdate.difficulty);
+        }
+    }, [taskToUpdate]);
+
     const addTaskHandler = (e: SubmitEvent<HTMLFormElement>) => {
         e.preventDefault();
-        
-        setId(Math.floor(Math.random() * 1000));
-        
-        const newTask: ITask = { id: String(id), title, difficulty };
 
-        setTaskList!([...taskList, newTask]);
+        if (handleUpdate) {  //Editando uma tarefa existente
+            handleUpdate(String(id), title, difficulty);
+
+        } else {  //Cria uma nova tarefa
+            setId(Math.floor(Math.random() * 1000));
+        
+            const newTask: ITask = { id: String(id), title, difficulty };
+
+            setTaskList!([...taskList, newTask]);
+        }
 
         setTitle("");
         setDifficulty(0);
-        console.log(taskList);
     };
 
     const handleChange = (e: ChangeEvent<HTMLInputElement>) => {

@@ -14,18 +14,50 @@ import TaskList from "./components/tasklist/TaskList";
 //Interfaces
 import type { ITask } from "./interfaces/Task";
 
-
 function App() {
     const [taskList, setTaskList] = useState<ITask[]>([]);
+    const [taskToUpdate, setTaskToUpdate] = useState<ITask | null>(null);
 
     const deleteTask = (id: string) => {
         setTaskList(taskList.filter((task) => task.id !== id));
     };
 
+    const hideOrShowModal = () => {
+        const modal = document.querySelector("#modal");
+        modal!.classList.toggle("hide");
+    }
+
+    const editTask = (task: ITask): void => {
+        setTaskToUpdate(task);
+        hideOrShowModal();
+    }
+
+    const updateTask = (id: string, title: string, difficulty: number) => {
+        const updatedTask: ITask = { id, title, difficulty };
+
+        const updatedItems = taskList.map((task) => {
+            return task.id === updatedTask.id ? updatedTask : task;
+        });
+
+        setTaskList(updatedItems);
+        hideOrShowModal();
+    }
+
     return (
         <>
             <div>
-                <Modal />
+                <Modal
+                    children={
+                        <TaskForm
+                            buttonText="Editar tarefa"
+                            taskList={taskList}
+                            setTaskList={setTaskList}
+                            taskToUpdate={taskToUpdate}
+                            handleUpdate={updateTask}
+                        />
+                    }
+                />
+
                 <Header />
 
                 <main className={styles.main}>
@@ -39,7 +71,11 @@ function App() {
                     </div>
                     <div>
                         <h2>Lista de tarefas</h2>
-                        <TaskList taskList={taskList} handleDelete={deleteTask} />
+                        <TaskList
+                            taskList={taskList}
+                            handleDelete={deleteTask}
+                            handleEdit={editTask}
+                        />
                     </div>
                 </main>
 
@@ -47,6 +83,6 @@ function App() {
             </div>
         </>
     );
-};
+}
 
 export default App;
