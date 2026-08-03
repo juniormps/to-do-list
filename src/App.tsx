@@ -17,19 +17,23 @@ import type { ITask } from "./interfaces/Task";
 function App() {
     const [taskList, setTaskList] = useState<ITask[]>([]);
     const [taskToUpdate, setTaskToUpdate] = useState<ITask | null>(null);
+    const [showModal, setShowModal] = useState(false);
 
     const deleteTask = (id: string) => {
         setTaskList(taskList.filter((task) => task.id !== id));
     };
 
-    const hideOrShowModal = () => {
-        const modal = document.querySelector("#modal");
-        modal!.classList.toggle("hide");
+    const openModal = () => {
+        setShowModal(true);
+    }
+
+    const closeModal = () => {
+        setShowModal(false);
     }
 
     const editTask = (task: ITask): void => {
         setTaskToUpdate(task);
-        hideOrShowModal();
+        openModal();
     }
 
     const updateTask = (id: string, title: string, difficulty: number) => {
@@ -40,13 +44,15 @@ function App() {
         });
 
         setTaskList(updatedItems);
-        hideOrShowModal();
+        closeModal();
     }
 
     return (
         <>
             <div>
                 <Modal
+                    show={showModal}
+                    onClose={closeModal}
                     children={
                         <TaskForm
                             buttonText="Editar tarefa"
