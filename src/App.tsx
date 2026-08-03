@@ -18,23 +18,35 @@ function App() {
     const [taskList, setTaskList] = useState<ITask[]>([]);
     const [taskToUpdate, setTaskToUpdate] = useState<ITask | null>(null);
     const [showModal, setShowModal] = useState(false);
+    const [taskToDelete, setTaskToDelete] = useState<string | null>(null);
 
     const deleteTask = (id: string) => {
-        setTaskList(taskList.filter((task) => task.id !== id));
+        setTaskToDelete(id);
+    };
+
+    const confirmDelete = () => {
+        if (taskToDelete) {
+            setTaskList(taskList.filter((task) => task.id !== taskToDelete));
+        }
+        setTaskToDelete(null);
+    };
+
+    const cancelDelete = () => {
+        setTaskToDelete(null);
     };
 
     const openModal = () => {
         setShowModal(true);
-    }
+    };
 
     const closeModal = () => {
         setShowModal(false);
-    }
+    };
 
     const editTask = (task: ITask): void => {
         setTaskToUpdate(task);
         openModal();
-    }
+    };
 
     const updateTask = (id: string, title: string, difficulty: number) => {
         const updatedTask: ITask = { id, title, difficulty };
@@ -45,7 +57,7 @@ function App() {
 
         setTaskList(updatedItems);
         closeModal();
-    }
+    };
 
     return (
         <>
@@ -53,6 +65,7 @@ function App() {
                 <Modal
                     show={showModal}
                     onClose={closeModal}
+                    title="Editar Tarefa"
                     children={
                         <TaskForm
                             buttonText="Editar tarefa"
@@ -61,6 +74,28 @@ function App() {
                             taskToUpdate={taskToUpdate}
                             handleUpdate={updateTask}
                         />
+                    }
+                />
+
+                <Modal
+                    show={taskToDelete !== null}
+                    onClose={cancelDelete}
+                    title="Confirmar Exclusão"
+                    children={
+                        <div>
+                            <p>Tem certeza que deseja excluir esta tarefa?</p>
+                            <div
+                                style={{
+                                    display: "flex",
+                                    justifyContent: "center",
+                                    gap: "1em",
+                                    marginTop: "1.5em",
+                                }}
+                            >
+                                <button onClick={cancelDelete}>Cancelar</button>
+                                <button onClick={confirmDelete}>Excluir</button>
+                            </div>
+                        </div>
                     }
                 />
 

@@ -4,9 +4,10 @@ interface Props {
     children: React.ReactNode;
     show: boolean;
     onClose(): void;
+    title: string;
 }
 
-const Modal = ({ children, show, onClose }: Props) => {
+const Modal = ({ children, show, onClose, title }: Props) => {
     if (!show) return null;
 
     return (
@@ -14,7 +15,7 @@ const Modal = ({ children, show, onClose }: Props) => {
             <div className={styles.fade} onClick={onClose}>
             </div>
             <div className={styles.modal}>
-                <h2>Editar Tarefa</h2>
+                <h2>{title}</h2>
                 {children}
             </div>
         </div>
