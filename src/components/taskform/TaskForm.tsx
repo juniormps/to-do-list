@@ -1,29 +1,34 @@
-import styles from "./TaskForm.module.css";
-import { ITask } from "../../interfaces/Task";
-import { useState, useEffect } from "react";
 import type { ChangeEvent, SubmitEvent } from "react";
+import { useState } from "react";
+import styles from "./TaskForm.module.css";
+import type { ITask } from "../../interfaces/Task";
 interface TaskFormProps {
-    btnText: string;
     buttonText: string;
+    taskList: ITask[];
+    setTaskList?: React.Dispatch<React.SetStateAction<ITask[]>>;
 }
 
-const TaskForm = ({ buttonText }: TaskFormProps) => {
-
+const TaskForm = ({ buttonText, taskList, setTaskList }: TaskFormProps) => {
     const [id, setId] = useState<number>(0);
     const [title, setTitle] = useState<string>("");
     const [difficulty, setDifficulty] = useState<number>(0);
 
-    useEffect(() => {
-        setId(Math.floor(Math.random() * 1000));
-    }, []);
-
     const addTaskHandler = (e: SubmitEvent<HTMLFormElement>) => {
         e.preventDefault();
-        console.log(title, difficulty);
+        
+        setId(Math.floor(Math.random() * 1000));
+        
+        const newTask: ITask = { id: String(id), title, difficulty };
+
+        setTaskList!([...taskList, newTask]);
+
+        setTitle("");
+        setDifficulty(0);
+        console.log(taskList);
     };
 
     const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-        if(e.target.name === "title") {
+        if (e.target.name === "title") {
             setTitle(e.target.value);
         } else {
             setDifficulty(parseInt(e.target.value));
@@ -41,6 +46,7 @@ const TaskForm = ({ buttonText }: TaskFormProps) => {
                     name="title"
                     placeholder="Título da tarefa"
                     onChange={handleChange}
+                    value={title}
                 />
             </div>
             <div className={styles.input_container}>
@@ -51,6 +57,7 @@ const TaskForm = ({ buttonText }: TaskFormProps) => {
                     name="difficulty"
                     placeholder="Dificuldade da tarefa"
                     onChange={handleChange}
+                    value={difficulty}
                 />
             </div>
             <input type="submit" value={buttonText} />
