@@ -1,6 +1,6 @@
 //Styles
-import styles from "./App.module.css";
 import "bootstrap-icons/font/bootstrap-icons.css";
+import styles from "./App.module.css";
 
 import { useState } from "react";
 
@@ -15,6 +15,10 @@ import type { ITask } from "./interfaces/Task";
 
 function App() {
     const [taskList, setTaskList] = useState<ITask[]>([]);
+
+    const deleteTask = (id: string) => {
+        setTaskList(taskList.filter((task) => task.id !== id));
+    };
 
     return (
         <>
@@ -32,7 +36,7 @@ function App() {
                     </div>
                     <div>
                         <h2>Lista de tarefas</h2>
-                        <TaskList taskList={taskList} />
+                        <TaskList taskList={taskList} handleDelete={deleteTask} />
                     </div>
                 </main>
 
