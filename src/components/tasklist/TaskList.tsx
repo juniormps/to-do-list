@@ -14,27 +14,40 @@ const TaskList = ({ taskList, handleDelete, handleEdit, handleToggle }: Props) =
             {taskList.length > 0 ? (
                 taskList.map((task) => (
                     <div className={styles.task} key={task.id}>
+
                         <div className={styles.details}>
                             <h4 className={task.completed ? styles.completed : ""}>
                                 {task.title}
                             </h4>
                             <p>Dificuldade: {task.difficulty}</p>
                         </div>
+
                         <div className={styles.actions}>
+                            
                             <input
                                 type="checkbox"
                                 checked={task.completed}
                                 onChange={() => handleToggle(task.id)}
                                 className={styles.checkbox}
+                                aria-label="Marcar como concluída"
                             />
-                            <i
-                                className="bi bi-pencil"
+
+                            <button
+                                className={styles.icon_btn}
                                 onClick={() => handleEdit(task)}
-                            ></i>
-                            <i
-                                className="bi bi-trash"
+                                aria-label="Editar tarefa"
+                            >
+                                <i className="bi bi-pencil"></i>
+                            </button>
+
+                            <button
+                                className={styles.icon_btn}
                                 onClick={() => handleDelete(task.id)}
-                            ></i>
+                                aria-label="Excluir tarefa"
+                            >
+                                <i className="bi bi-trash"></i>
+                            </button>
+
                         </div>
                     </div>
                 ))
