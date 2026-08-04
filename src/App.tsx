@@ -68,7 +68,7 @@ function App() {
 
     return (
         <>
-            <div>
+            <div className={styles.container}>
                 <Modal
                     show={showModal}
                     onClose={closeModal}
