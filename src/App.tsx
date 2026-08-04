@@ -2,7 +2,7 @@
 import "bootstrap-icons/font/bootstrap-icons.css";
 import styles from "./App.module.css";
 
-import { useState } from "react";
+import { useMemo, useState } from "react";
 
 //Hooks
 import { useTasks } from "./hooks/useTasks";
@@ -30,6 +30,22 @@ function App() {
 
     const [taskToUpdate, setTaskToUpdate] = useState<ITask | null>(null);
     const [showModal, setShowModal] = useState(false);
+    const [search, setSearch] = useState("");
+    const [filterDifficulty, setFilterDifficulty] = useState("");
+
+    const filteredTasks = useMemo(() => {
+        return taskList.filter((task) => {
+            const matchesSearch = task.title
+                .toLowerCase()
+                .includes(search.toLowerCase());
+
+            const difficultyNum = parseInt(filterDifficulty);
+            const matchesDifficulty =
+                filterDifficulty === "" || task.difficulty === difficultyNum;
+
+            return matchesSearch && matchesDifficulty;
+        });
+    }, [taskList, search, filterDifficulty]);
 
     const openModal = () => {
         setShowModal(true);
@@ -75,10 +91,16 @@ function App() {
                                 Tem certeza que deseja excluir esta tarefa?
                             </p>
                             <div className={styles.confirm_actions}>
-                                <button className={styles.confirm_btn} onClick={cancelDelete}>
+                                <button
+                                    className={styles.confirm_btn}
+                                    onClick={cancelDelete}
+                                >
                                     Cancelar
                                 </button>
-                                <button className={styles.confirm_btn_danger} onClick={confirmDelete}>
+                                <button
+                                    className={styles.confirm_btn_danger}
+                                    onClick={confirmDelete}
+                                >
                                     Excluir
                                 </button>
                             </div>
@@ -91,15 +113,29 @@ function App() {
                 <main className={styles.main}>
                     <div>
                         <h2>O que você vai fazer?</h2>
-                        <TaskForm
-                            buttonText="Criar tarefa"
-                            onAdd={addTask}
-                        />
+                        <TaskForm buttonText="Criar tarefa" onAdd={addTask} />
                     </div>
                     <div>
                         <h2>Lista de tarefas</h2>
+                        <div className={styles.filter}>
+                            <input
+                                type="text"
+                                placeholder="Buscar por título..."
+                                value={search}
+                                onChange={(e) => setSearch(e.target.value)}
+                            />
+                            <input
+                                type="number"
+                                placeholder="Filtrar por dificuldade"
+                                value={filterDifficulty}
+                                onChange={(e) =>
+                                    setFilterDifficulty(e.target.value)
+                                }
+                                min="1"
+                            />
+                        </div>
                         <TaskList
-                            taskList={taskList}
+                            taskList={filteredTasks}
                             handleDelete={requestDelete}
                             handleEdit={editTask}
                         />
