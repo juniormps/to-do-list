@@ -6,13 +6,21 @@ export function useTasks() {
     const [taskToDelete, setTaskToDelete] = useState<string | null>(null);
 
     const addTask = (task: ITask) => {
-        setTaskList((prev) => [...prev, task]);
+        setTaskList((prev) => [...prev, { ...task, completed: false }]);
     };
 
     const updateTask = (id: string, title: string, difficulty: number) => {
         setTaskList((prev) =>
             prev.map((task) =>
-                task.id === id ? { id, title, difficulty } : task
+                task.id === id ? { ...task, title, difficulty } : task
+            )
+        );
+    };
+
+    const toggleTask = (id: string) => {
+        setTaskList((prev) =>
+            prev.map((task) =>
+                task.id === id ? { ...task, completed: !task.completed } : task
             )
         );
     };
@@ -36,6 +44,7 @@ export function useTasks() {
         taskList,
         addTask,
         updateTask,
+        toggleTask,
         taskToDelete,
         requestDelete,
         confirmDelete,

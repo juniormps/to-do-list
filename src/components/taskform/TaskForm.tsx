@@ -51,7 +51,7 @@ const TaskForm = ({ buttonText, onAdd, taskToUpdate, handleUpdate }: TaskFormPro
             handleUpdate(id, title, difficultyNum);
 
         } else {
-            const newTask: ITask = { id: crypto.randomUUID(), title, difficulty: difficultyNum };
+            const newTask: ITask = { id: crypto.randomUUID(), title, difficulty: difficultyNum, completed: false };
 
             onAdd!(newTask);
         }

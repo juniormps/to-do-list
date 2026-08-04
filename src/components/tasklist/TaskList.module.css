@@ -16,6 +16,18 @@
     font-size: 1.2em;
 }
 
+.completed {
+    text-decoration: line-through;
+    color: #999;
+}
+
+.checkbox {
+    cursor: pointer;
+    margin-bottom: 0.5em;
+    width: 1.1em;
+    height: 1.1em;
+}
+
 .actions {
     display: flex;
     flex-direction: column;

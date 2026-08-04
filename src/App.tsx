@@ -22,6 +22,7 @@ function App() {
         taskList,
         addTask,
         updateTask,
+        toggleTask,
         taskToDelete,
         requestDelete,
         confirmDelete,
@@ -138,6 +139,7 @@ function App() {
                             taskList={filteredTasks}
                             handleDelete={requestDelete}
                             handleEdit={editTask}
+                            handleToggle={toggleTask}
                         />
                     </div>
                 </main>
