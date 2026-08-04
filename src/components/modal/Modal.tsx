@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useId } from "react";
 import styles from "./Modal.module.css";
 
 interface Props {
@@ -9,6 +9,7 @@ interface Props {
 }
 
 const Modal = ({ children, show, onClose, title }: Props) => {
+    const titleId = useId();
 
     useEffect(() => {
         const handleKeyDown = (e: KeyboardEvent) => {
@@ -31,9 +32,14 @@ const Modal = ({ children, show, onClose, title }: Props) => {
     return (
         <div id="modal">
             <div className={styles.fade} onClick={onClose}></div>
-            
-            <div className={styles.modal}>
-                <h2>{title}</h2>
+
+            <div
+                className={styles.modal}
+                role="dialog"
+                aria-modal="true"
+                aria-labelledby={titleId}
+            >
+                <h2 id={titleId}>{title}</h2>
                 {children}
             </div>
         </div>
